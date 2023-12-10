@@ -3,9 +3,10 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            return "Give me name and phone please."
+            return "Invalid input. Please provide valid data."
 
     return inner
+
 
 
 def contact_not_found_error(func):
