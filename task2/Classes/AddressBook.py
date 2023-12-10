@@ -1,7 +1,8 @@
 from task2.Decorators.Decorators import input_error
 from collections import UserDict
-class AddressBook(UserDict):
 
+
+class AddressBook(UserDict):
     def __init__(self):
         self.data = {}
 
