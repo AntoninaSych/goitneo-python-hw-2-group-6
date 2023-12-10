@@ -1,6 +1,6 @@
 from datetime import datetime
 import collections
-from decorators import contact_not_found_error, input_error
+from decorators import input_error
 
 MENU = """
     # - hello
@@ -13,6 +13,7 @@ MENU = """
 FILENAME = "contacts.txt"
 Person = collections.namedtuple("Person", ["name", "phone"])
 
+
 @input_error
 def add_contact(person: Person):
     with open(FILENAME, "a") as f:
@@ -22,7 +23,7 @@ def add_contact(person: Person):
         print("Contact added.")
 
 
-@contact_not_found_error
+@input_error
 def change_contact(person: Person):
     file_updated = False
     with open("contacts.txt", "r") as file:
@@ -33,17 +34,15 @@ def change_contact(person: Person):
             if person.name in line:
                 parts = line.split()
                 parts[-1] = person.phone
-
                 line = f"{current_date: >15}{person.name: ^40}{person.phone: ^10}\n"
                 file_updated = True
             file.write(line)
 
-    if file_updated:
-        print("Contact updated.")
-    else:
-        print("Contact name not found.")
+    if not file_updated:
+        raise KeyError
 
-@contact_not_found_error
+
+@input_error
 def show_phone(name):
     with open("contacts.txt", "r") as file:
         for line in file:
@@ -67,34 +66,36 @@ def show_all():
     except IOError:
         print("Error while accessing the file.")
 
-
+@input_error
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, args
 
-
+@input_error
 def main():
     print(MENU)
     while True:
-        command = input("Enter command: ").strip()
-        command_name, args = parse_input(command)
 
-        if command_name.lower() == "hello":
-            print("How can I help you?")
-        elif command_name.startswith("add"):
-            add_contact(Person(args[0], args[1]))
-        elif command_name.startswith("change"):
-            change_contact(Person(args[0], args[1]))
-        elif command_name.startswith("phone"):
-            show_phone(args[0])
-        elif command_name == "all":
-            show_all()
-        elif command_name in ["close", "exit"]:
-            print("Good bye!")
-            break
-        else:
-            print("Invalid command.")
+            command = input("Enter command: ").strip()
+            command_name, args = parse_input(command)
+
+            if command_name.lower() == "hello":
+                print("How can I help you?")
+            elif command_name.startswith("add"):
+                add_contact(Person(args[0], args[1]))
+            elif command_name.startswith("change"):
+                change_contact(Person(args[0], args[1]))
+            elif command_name.startswith("phone"):
+                show_phone(args[0])
+            elif command_name == "all":
+                show_all()
+            elif command_name in ["close", "exit"]:
+                print("Good bye!")
+                break
+            else:
+                print("Invalid command.")
+
 
 
 if __name__ == "__main__":

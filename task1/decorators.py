@@ -3,17 +3,14 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
+            print("Invalid input. Please provide valid data.")
             return "Invalid input. Please provide valid data."
-
-    return inner
-
-
-
-def contact_not_found_error(func):
-    def inner(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
         except KeyError:
-            return "Contact not found."
+            print("User not exist. Please provide valid data.")
+            return "User not exist. Please provide valid data."
+        except IndexError:
+            print("Please  check your input.")
+            return "Please  check your input."
 
     return inner
+
