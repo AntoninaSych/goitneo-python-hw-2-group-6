@@ -1,4 +1,4 @@
-from InputError import input_error, contact_not_found_error
+from Decorators import input_error, contact_not_found_error
 class Contacts:
     current_id = 1
 
