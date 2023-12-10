@@ -1,9 +1,11 @@
+from InputError import input_error, contact_not_found_error
 class Contacts:
     current_id = 1
 
     def __init__(self):
         self.contacts = []
 
+    @input_error
     def add_contact(self, name, phone, email, favorite):
         try:
             self.contacts.append(
@@ -20,6 +22,7 @@ class Contacts:
         except ValueError:
             return "Please provide name and phone please."
 
+    @contact_not_found_error
     def get_contact(self, contact_id):
         try:
             contact_id = int(contact_id)
@@ -31,6 +34,7 @@ class Contacts:
         except ValueError:
             return "Invalid input. Enter a valid contact ID."
 
+    @contact_not_found_error
     def remove_contact(self, contact_id):
         try:
             contact_id = int(contact_id)
