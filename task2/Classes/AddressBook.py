@@ -1,17 +1,19 @@
-from task2.Decorators.DecoratorsError import input_error, contact_not_found_error
-class AddressBook:
+from task2.Decorators.Decorators import input_error
+from collections import UserDict
+class AddressBook(UserDict):
+
     def __init__(self):
-        self.records = {}
+        self.data = {}
 
     @input_error
     def add_record(self, record):
-        self.records[record.name.name] = record
+        self.data[record.name.name] = record
 
-    @contact_not_found_error
+    @input_error
     def find(self, name):
-        return self.records.get(name)
+        return self.data.get(name)
 
-    @contact_not_found_error
+    @input_error
     def delete(self, name):
-        if name in self.records:
-            del self.records[name]
+        if name in self.data:
+            del self.data[name]

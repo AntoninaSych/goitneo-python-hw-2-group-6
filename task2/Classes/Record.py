@@ -1,5 +1,6 @@
 import Name
-from task2.Classes import Phone
+from task2.Classes.Phone import Phone
+from task2.Classes.Name import Name
 
 
 class Record:
